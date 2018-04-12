@@ -33,24 +33,24 @@ typealias NumberFactory = (String) -> Decimal
 
 // Number implementations with factory methods
 
-struct NextStepNumber : Decimal {
-    private var nextStepNumber : NSNumber
+struct NextStepNumber: Decimal {
+    private var nextStepNumber: NSNumber
 
     func stringValue() -> String { return nextStepNumber.stringValue }
     
     // factory
-    static func make(string : String) -> Decimal {
-        return NextStepNumber(nextStepNumber:NSNumber(longLong:(string as NSString).longLongValue))
+    static func make(string: String) -> Decimal {
+        return NextStepNumber(nextStepNumber: NSNumber(value: (string as NSString).longLongValue))
     }
 }
 
 struct SwiftNumber : Decimal {
-    private var swiftInt : Int
+    private var swiftInt: Int
 
     func stringValue() -> String { return "\(swiftInt)" }
     
     // factory
-    static func make(string : String) -> Decimal {
+    static func make(string: String) -> Decimal {
         return SwiftNumber(swiftInt:(string as NSString).integerValue)
     }
 }
@@ -58,15 +58,15 @@ struct SwiftNumber : Decimal {
 Abstract factory
 */
 enum NumberType {
-    case NextStep, Swift
+    case nextStep, swift
 }
 
-class NumberHelper {
-    class func factoryFor(type : NumberType) -> NumberFactory {
+enum NumberHelper {
+    static func factory(for type: NumberType) -> NumberFactory {
         switch type {
-        case .NextStep:
+        case .nextStep:
             return NextStepNumber.make
-        case .Swift:
+        case .swift:
             return SwiftNumber.make
         }
     }
@@ -74,11 +74,11 @@ class NumberHelper {
 /*:
 ### Usage
 */
-let factoryOne = NumberHelper.factoryFor(.NextStep)
+let factoryOne = NumberHelper.factory(for: .nextStep)
 let numberOne = factoryOne("1")
 numberOne.stringValue()
 
-let factoryTwo = NumberHelper.factoryFor(.Swift)
+let factoryTwo = NumberHelper.factory(for: .swift)
 let numberTwo = factoryTwo("2")
 numberTwo.stringValue()
 /*:
@@ -111,7 +111,7 @@ struct DeathStar : CustomStringConvertible {
 
     init?(builder: DeathStarBuilder) {
 
-        if let x = builder.x, y = builder.y, z = builder.z {
+        if let x = builder.x, let y = builder.y, let z = builder.z {
             self.x = x
             self.y = y
             self.z = z
@@ -134,6 +134,9 @@ let empire = DeathStarBuilder { builder in
 }
 
 let deathStar = DeathStar(builder:empire)
+/*:
+>**Further Examples:** [Design Patterns in Swift](https://github.com/kingreza/Swift-Builder)
+*/
 /*:
 🏭 Factory Method
 -----------------
@@ -168,16 +171,16 @@ class UnitedStatesDolar : Currency {
 }
 
 enum Country {
-    case UnitedStates, Spain, UK, Greece
+    case unitedStates, spain, uk, greece
 }
 
-class CurrencyFactory {
-    class func currencyForCountry(country:Country) -> Currency? {
+enum CurrencyFactory {
+    static func currency(for country:Country) -> Currency? {
 
         switch country {
-            case .Spain, .Greece :
+            case .spain, .greece :
                 return Euro()
-            case .UnitedStates :
+            case .unitedStates :
                 return UnitedStatesDolar()
             default:
                 return nil
@@ -190,10 +193,10 @@ class CurrencyFactory {
 */
 let noCurrencyCode = "No Currency Code Available"
 
-CurrencyFactory.currencyForCountry(.Greece)?.code() ?? noCurrencyCode
-CurrencyFactory.currencyForCountry(.Spain)?.code() ?? noCurrencyCode
-CurrencyFactory.currencyForCountry(.UnitedStates)?.code() ?? noCurrencyCode
-CurrencyFactory.currencyForCountry(.UK)?.code() ?? noCurrencyCode
+CurrencyFactory.currency(for: .greece)?.code() ?? noCurrencyCode
+CurrencyFactory.currency(for: .spain)?.code() ?? noCurrencyCode
+CurrencyFactory.currency(for: .unitedStates)?.code() ?? noCurrencyCode
+CurrencyFactory.currency(for: .uk)?.code() ?? noCurrencyCode
 /*:
 🃏 Prototype
 ------------
@@ -228,6 +231,9 @@ Christoph.name = "Christoph"
 
 let Eduardo = Prototype.clone()
 Eduardo.name = "Eduardo"
+/*:
+>**Further Examples:** [Design Patterns in Swift](https://github.com/kingreza/Swift-Prototype)
+*/
 /*:
 💍 Singleton
 ------------

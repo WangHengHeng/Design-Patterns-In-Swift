@@ -29,11 +29,11 @@ struct OldDeathStarSuperlaserTarget : OlderDeathStarSuperLaserAiming {
     private let target : DeathStarSuperlaserTarget
 
     var angleV:NSNumber {
-        return NSNumber(double: target.angleVertical)
+        return NSNumber(value: target.angleVertical)
     }
 
     var angleH:NSNumber {
-        return NSNumber(double: target.angleHorizontal)
+        return NSNumber(value: target.angleHorizontal)
     }
 
     init(_ target:DeathStarSuperlaserTarget) {
@@ -48,3 +48,6 @@ let oldFormat = OldDeathStarSuperlaserTarget(target)
 
 oldFormat.angleH
 oldFormat.angleV
+/*:
+>**Further Examples:** [Design Patterns in Swift](https://github.com/kingreza/Swift-Adapter)
+*/
